@@ -1,21 +1,29 @@
+import bcrypt from 'bcryptjs';
 import User from "../models/User";
 import { Request, Response } from "express";
 import { generateJWT } from '../helpers/jwt';
 
-export const register = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
     try {
-        let user = await User.findOne({ email: req.body.email });
+        const { email, password } = req.body;
 
-        if(user) {
-            return res.status(400).json({
+        const user = await User.findOne({ email });
+
+        if(!user) {
+            return res.status(404).json({
                 status: "failure",
-                message: "User already exists",
+                message: "User does not exist",
             });
         }
-
-        user = new User(req.body);
-
-        await user.save();
+        
+        const isMatch = await bcrypt.compare(password, user.password);
+        
+        if(!isMatch) {
+            return res.status(409).json({
+                status: "failure",
+                message: "Incorrect password",
+            });
+        }
 
         const token = generateJWT(user._id);
 

@@ -1,9 +1,10 @@
 import 'dotenv/config';
 import cors from 'cors';
 import morgan from 'morgan';
+import express from 'express';
 import mongose from 'mongoose';
 import userRoutes from './routes/users';
-import express, { Request, Response } from 'express';
+import authRoutes from './routes/auth';
 
 // db connection
 mongose.connect(process.env.MONGODB_CONNECTION_STRING as string)
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 
 // server lostening
