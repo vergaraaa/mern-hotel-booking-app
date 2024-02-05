@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './index.css'
 import Layout from './layouts/Layout'
+import Register from './pages/Register'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
@@ -19,6 +20,14 @@ function App() {
           element={
             <Layout>
               <p>Search Page</p>
+            </Layout>
+          }
+        />
+        <Route 
+          path='/register' 
+          element={
+            <Layout>
+              <Register />
             </Layout>
           }
         />
