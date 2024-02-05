@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from 'express-validator';
 import { verifyToken } from "../middlewares/verify-token";
-import { login, validateToken } from "../controllers/auth";
+import { login, logout, validateToken } from "../controllers/auth";
 import { validateFields } from "../middlewares/validate-fields";
 
 const router = Router();
@@ -13,5 +13,7 @@ router.post('/login', [
 ], login);
 
 router.get('/validate-token', verifyToken, validateToken);
+
+router.post('/logout', logout);
 
 export default router;

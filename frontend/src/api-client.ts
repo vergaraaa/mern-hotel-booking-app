@@ -20,6 +20,23 @@ export const register = async(formData: RegisterFormData) => {
     }
 }
 
+export const login = async(formData: SignInFormData) => {
+    const request = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+    });
+
+    const data = await request.json();
+
+    if(data.status === "failure") {
+        throw new Error(data.message);
+    }
+}
+
 export const validateToken = async() => {
     const request = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
         method: "GET",
@@ -36,19 +53,13 @@ export const validateToken = async() => {
     return await request.json();
 }
 
-export const login = async(formData: SignInFormData) => {
-    const request = await fetch(`${API_BASE_URL}/api/auth/login`, {
+export const logout = async() => {
+    const request = await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData)
     });
 
-    const data = await request.json();
-
-    if(data.status === "failure") {
-        throw new Error(data.message);
+    if(!request.ok) {
+        throw new Error("Error during logout");
     }
 }
