@@ -25,7 +25,10 @@ export const register = async (req: Request, res: Response) => {
             maxAge: 86400000,
         });
 
-        return res.status(200).json({ userId: user._id });
+        return res.status(200).json({ 
+            userId: user._id,
+            message: "User registered OK" 
+        });
     } catch (error) {
         console.log(error);
 
