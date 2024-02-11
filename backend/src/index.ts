@@ -6,6 +6,7 @@ import express from "express";
 import mongose from "mongoose";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
+import myHotelRoutes from "./routes/my-hotels";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -41,8 +42,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 // routes
-app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/my-hotels", myHotelRoutes);
 
 // server lostening
 app.listen(app.get("port"), () => {

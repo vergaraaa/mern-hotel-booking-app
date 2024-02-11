@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import { generateJWT } from "../helpers/jwt";
 import cloudinary from "cloudinary";
+import { Request, Response } from "express";
+import Hotel, { HotelType } from "../models/hotel";
 
 export const createHotel = async (req: Request, res: Response) => {
   try {
-    const newHotel = req.body;
+    const newHotel: HotelType = req.body;
     const imageFiles = req.files as Express.Multer.File[];
 
     // upload images to cloudinary
@@ -16,16 +16,24 @@ export const createHotel = async (req: Request, res: Response) => {
       return res.url;
     });
 
-    // add urls to new hotel if successful
+    const imageUrls = await Promise.all(uploadPromises);
 
-    // save the nuew hotel in our database
+    // add urls to new hotel if successful
+    newHotel.imageUrls = imageUrls;
+    newHotel.lastUpdated = new Date();
+    newHotel.userId = req.userId;
+
+    // save the new hotel in our database
+    const hotel = new Hotel(newHotel);
+    await hotel.save();
 
     // return
-    return res.status(200).json({
+    return res.status(201).json({
       status: "success",
+      hotel,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log("Error creating hotel: ", e);
 
     return res.status(500).json({
       status: "failure",
