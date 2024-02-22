@@ -2,7 +2,7 @@ import "dotenv/config";
 import cors from "cors";
 import path from "path";
 import morgan from "morgan";
-import express from "express";
+import express, { Request, Response } from "express";
 import mongose from "mongoose";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
@@ -45,6 +45,10 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/my-hotels", myHotelRoutes);
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 // server lostening
 app.listen(app.get("port"), () => {

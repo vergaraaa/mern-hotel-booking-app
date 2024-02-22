@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import AddHotel from "./pages/AddHotel";
 import { useAppContext } from "./context/AppContext";
+import MyHotels from "./pages/MyHotels";
 
 function App() {
   const { isLoggedIn } = useAppContext();
@@ -51,6 +52,14 @@ function App() {
               element={
                 <Layout>
                   <AddHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-hotels"
+              element={
+                <Layout>
+                  <MyHotels />
                 </Layout>
               }
             />
