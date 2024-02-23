@@ -1,7 +1,12 @@
 import multer from "multer";
 import { Router } from "express";
 import { body, check } from "express-validator";
-import { createHotel, getMyHotels } from "../controllers/my-hotels";
+import {
+  createHotel,
+  getHotelDetail,
+  getMyHotels,
+  updateHotel,
+} from "../controllers/my-hotels";
 import { verifyToken } from "../middlewares/verify-token";
 
 const router = Router();
@@ -46,5 +51,9 @@ router.post(
   ],
   createHotel
 );
+
+router.get("/:id", verifyToken, getHotelDetail);
+
+router.put("/:id", verifyToken, upload.array("imageFiles"), updateHotel);
 
 export default router;

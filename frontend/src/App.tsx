@@ -1,11 +1,12 @@
 import "./index.css";
 import Layout from "./layouts/Layout";
 import Register from "./pages/Register";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import AddHotel from "./pages/AddHotel";
 import { useAppContext } from "./context/AppContext";
 import MyHotels from "./pages/MyHotels";
+import EditHotel from "./pages/EditHotel";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   const { isLoggedIn } = useAppContext();
@@ -60,6 +61,14 @@ function App() {
               element={
                 <Layout>
                   <MyHotels />
+                </Layout>
+              }
+            />
+            <Route
+              path="/edit-hotel/:hotelId"
+              element={
+                <Layout>
+                  <EditHotel />
                 </Layout>
               }
             />
